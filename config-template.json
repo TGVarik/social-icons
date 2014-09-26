@@ -1,59 +1,21 @@
-[
-  {
-    "name": "behance"
-  },
-  {
-    "name": "deviantart"
-  }
-  {
-    "name": "facebook"
-  },
-  {
-    "name": "flickr"
-  },
-  {
-    "name": "github"
-  },
-  {
-    "name": "google-plus"
-  },
-  {
-    "name": "instagram"
-  },
-  {
-    "name": "lastfm"
-  },
-  {
-    "name": "linkedin"
-  },
-  {
-    "name": "pinterest"
-  },
-  {
-    "name": "reddit"
-  },
-  {
-    "name": "skype"
-  },
-  {
-    "name": "slack"
-  },
-  {
-    "name": "soundcloud"
-  },
-  {
-    "name": "steam"
-  },
-  {
-    "name": "tumblr"
-  },
-  {
-    "name": "twitter"
-  },
-  {
-    "name": "vimeo"
-  },
-  {
-    "name": "vine"
-  }
-]
+{
+  "behance":     {},
+  "deviantart":  {},
+  "facebook":    {},
+  "flickr":      {},
+  "github":      {},
+  "google-plus": {},
+  "instagram":   {},
+  "lastfm":      {},
+  "linkedin":    {},
+  "pinterest":   {},
+  "reddit":      {},
+  "skype":       {},
+  "slack":       {},
+  "soundcloud":  {},
+  "steam":       {},
+  "tumblr":      {},
+  "twitter":     {},
+  "vimeo":       {},
+  "vine":        {}
+}

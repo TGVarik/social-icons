@@ -5,12 +5,13 @@ var width = 250,
 
 
 
-var nodeData = function(){
-  $.getJSON
 
+  $.getJSON("config.json", function(data){
+    data = $.filter(data, function(item){
+      return !!item.user;
+    });
 
-
-}
+  });
 
 
 
