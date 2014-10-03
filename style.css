@@ -1,12 +1,7 @@
-.social-node-text {
-  fill: white;
-  text-anchor: middle;
+.social-node {
+    cursor: pointer;
 }
 
-circle.twitter {
-    fill: #55acee;
-}
-
-circle.facebook {
-    fill: #3b5998;
+.social-node-icon {
+    pointer-events: none;
 }

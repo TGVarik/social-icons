@@ -1,20 +1,33 @@
 {
-  "behance":     {}, ///
-  "deviantart":  {}, ///?
-  "facebook":    {}, //
-  "flickr":      {}, /////
-  "github":      {}, //
-  "google-plus": {}, //
-  "instagram":   {}, /////
-  "lastfm":      {}, //
-  "linkedin":    {}, ///
-  "pinterest":   {}, //
-  "reddit":      {}, ///
-  "slack":       {}, /////
-  "soundcloud":  {}, /////
-  "steam":       {}, ///
-  "tumblr":      {}, /////
-  "twitter":     {}, //
-  "vimeo":       {}, //
-  "vine":        {}  //
+  "invert": false,      // if true, normally white logos appear in brand color instead
+  "baseColor": "white", // color of circles when invert is true
+  "width": 350,
+  "height": 350,
+  "padding": 1.5,       // space between nodes at rest
+  "radius": 23,         // node radius
+  "sound": true,
+  "gravity": 0.02,      // see https://github.com/mbostock/d3/wiki/Force-Layout#wiki-gravity
+  "charge": 0,          // see https://github.com/mbostock/d3/wiki/Force-Layout#wiki-charge
+  "accounts": {
+    "angellist"  : { "user"  : "" },
+    "behance"    : { "user"  : "" },
+    "deviantart" : { "user"  : "" },
+    "facebook"   : { "user"  : "" },
+    "flickr"     : { "user"  : "" }, // use your NSID! -- matches /\d{8}@N\d{2}/
+    "github"     : { "user"  : "" },
+    "google-plus": { "user"  : "" },
+    "instagram"  : { "user"  : "" },
+    "lastfm"     : { "user"  : "" },
+    "linkedin"   : { "user"  : "" },
+    "pinterest"  : { "user"  : "" },
+    "reddit"     : { "user"  : "" },
+    "slack"      : { "user"  : "" },
+    "soundcloud" : { "user"  : "" },
+    "spotify"    : { "user"  : "" },
+    "steam"      : { "user"  : "" },
+    "tumblr"     : { "user"  : "" },
+    "twitter"    : { "user"  : "" },
+    "vimeo"      : { "user"  : "" },
+    "vine"       : { "user"  : "" }
+  }
 }
