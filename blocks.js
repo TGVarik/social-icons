@@ -1,4 +1,4 @@
-// wrap in module!!
+//TODO: wrap in module!!
 
 var context;
 var init = function () {
@@ -19,10 +19,9 @@ var init = function () {
   })
 };
 
-
-var socialWidget = function(data) {
+var socialWidget = function (data) {
   var playPop = undefined;
-  var initializeAudio = function() {
+  var initializeAudio = function () {
     try {
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
       var context = new AudioContext();
@@ -48,85 +47,58 @@ var socialWidget = function(data) {
       playPop = undefined;
     }
   };
-  if (data.sound){
+  if (data.sound) {
     initializeAudio();
   }
   var t = _.template('translate(-<%= cur %>,-<%= cur %>),scale(<% print(cur/100); %>)');
 
-  var resize = function(d){
-    d3.select(this).select('circle')
-        .transition()
-        .duration(750)
-        .ease('elastic')
-        .attr('r', d.radius.cur);
-    d3.select(this).select('.social-node-icon')
-        .transition()
-        .duration(750)
-        .ease('elastic')
-        .attr('transform', t(d.radius));
+  var resize = function (d) {
+    d3.select(this).select('circle').transition().duration(750).ease('elastic').attr('r', d.radius.cur);
+    d3.select(this).select('.social-node-icon').transition().duration(750).ease('elastic').attr('transform', t(d.radius));
   };
 
-  var onMouseEnter = function(d){
+  var onMouseEnter = function (d) {
     force.start();
     d.radius.cur = d.radius.max;
     resize.call(this.parentNode, d);
-    if (playPop){
+    if (playPop) {
       playPop()
     }
   };
 
-  var onMouseLeave = function(d){
+  var onMouseLeave = function (d) {
     force.start();
     d.radius.cur = d.radius.min;
     resize.call(this.parentNode, d);
   };
 
   var nodeData = [];
-  for (var key in data.accounts){
+  for (var key in data.accounts) {
     data.accounts[key].service = key;
     nodeData.push(data.accounts[key]);
   }
 
-  var force = d3.layout.force()
-      .nodes(nodeData)
-      .size([data.width, data.height])
-      .charge(data.charge)
-      .gravity(data.gravity)
-      .on("tick", tick)
-      .start();
+  var force = d3.layout.force().nodes(nodeData).size([data.width, data.height]).charge(data.charge).gravity(data.gravity).on("tick", tick).start();
 
-  var svg = d3.select(".social-blocks").append("svg")
-      .attr({
+  var svg = d3.select(".social-blocks").append("svg").attr({
         width : data.width,
         height: data.height,
         class : 'social'
       });
 
-  var node = svg
-      .selectAll("g")
-      .data(nodeData, function (d) {
+  var node = svg.selectAll("g").data(nodeData, function (d) {
         return d.url;
       });
 
-  node
-      .enter()
-      .append('g')
-      .attr('class', function(d){return 'social-node ' + d.service;})
-      .call(force.drag);
+  node.enter().append('g').attr('class', function (d) {return 'social-node ' + d.service;}).call(force.drag);
 
   var circle = node.selectAll('circle');
 
   if (circle.empty()) {
-    circle = node
-        .append('circle')
-        .attr('class', 'social-node-circle')
-        .attr('fill', function(d){return data.invert ? data.baseColor : d.color;});
+    circle = node.append('circle').attr('class', 'social-node-circle').attr('fill', function (d) {return data.invert ? data.baseColor : d.color;});
   }
 
-  circle
-      .on('mouseenter', onMouseEnter)
-      .on('mouseleave', onMouseLeave)
-      .on('click', function(d){
+  circle.on('mouseenter', onMouseEnter).on('mouseleave', onMouseLeave).on('click', function (d) {
         if (!d3.event.defaultPrevented) {
           window.open(d.url, '_blank');
         }
@@ -135,68 +107,47 @@ var socialWidget = function(data) {
   var icon = node.selectAll('.social-node-icon');
 
   if (icon.empty()) {
-    icon = node
-        .append('g')
-        .attr({
-          'transform': function(d){ return t({cur:0}); },
-          'class': 'social-node-icon'
+    icon = node.append('g').attr({
+          'transform': function (d) { return t({cur: 0}); },
+          'class'    : 'social-node-icon'
         });
-    icon
-        .append('path')
-        .attr('d', function(d){return d.path;})
-        .attr('fill', function(d){return data.invert ? d.color : 'white'});
+    icon.append('path').attr('d', function (d) {return d.path;}).attr('fill', function (d) {return data.invert ? d.color : 'white'});
 
-    icon
-        .filter(function(d){ return d.service === 'flickr'; })
-        .selectAll('.subcircle')
-        .data(function(d) { return d.circles; })
-        .enter()
-        .append('path')
-        .attr({
-          'd': function(d){ return d.path; },
-          'fill': function(d){ return data.invert ? d.inverted : d.color; },
+    icon.filter(function (d) { return d.service === 'flickr'; }).selectAll('.subcircle').data(function (d) { return d.circles; }).enter().append('path').attr({
+          'd'    : function (d) { return d.path; },
+          'fill' : function (d) { return data.invert ? d.inverted : d.color; },
           'class': 'subcircle'
         });
   }
 
-  circle
-      .transition()
-      .duration(750)
-      .delay(function (d, i) {
+  circle.transition().duration(750).delay(function (d, i) {
         return i * 75;
-      })
-      .attrTween("r", function (d) {
+      }).attrTween("r", function (d) {
         var i = d3.interpolate(0, d.radius.cur);
         return function (t) {
           return d.radius.cur = i(t);
         };
-  });
+      });
 
-  icon
-      .transition()
-      .duration(750)
-      .delay(function (d, i){
+  icon.transition().duration(750).delay(function (d, i) {
         return i * 75;
-      })
-      .attrTween('transform', function(d){
-        var i = d3.interpolate(t({cur:0}), t(d.radius));
-        return function(t){
+      }).attrTween('transform', function (d) {
+        var i = d3.interpolate(t({cur: 0}), t(d.radius));
+        return function (t) {
           return i(t);
         };
-  });
+      });
 
   function tick(e) {
 
     var oldCenter = {
-      cx: circle.empty() ? 0: circle.attr('cx'),
-      cy: circle.empty() ? 0: circle.attr('cy')
+      cx: circle.empty() ? 0 : circle.attr('cx'),
+      cy: circle.empty() ? 0 : circle.attr('cy')
     };
 
-    circle
-        .each(collide(.5));
+    circle.each(collide(.5));
 
-    node
-        .attr('transform', function (d) {
+    node.attr('transform', function (d) {
           var dx = Math.max(d.radius.cur, Math.min(data.width - d.radius.cur, d.x)) - oldCenter.cx;
           var dy = Math.max(d.radius.cur, Math.min(data.height - d.radius.cur, d.y)) - oldCenter.cy;
           return 'translate(' + dx + ',' + dy + ')';
@@ -204,23 +155,13 @@ var socialWidget = function(data) {
 
   }
 
-// Move d to be adjacent to the cluster node.
-
-// Resolves collisions between d and all other circles.
   function collide(alpha) {
     var quadtree = d3.geom.quadtree(nodeData);
     return function (d) {
-      var r = d.radius.cur + data.radius + data.padding,
-          nx1 = d.x - r,
-          nx2 = d.x + r,
-          ny1 = d.y - r,
-          ny2 = d.y + r;
+      var r = d.radius.cur + data.radius + data.padding, nx1 = d.x - r, nx2 = d.x + r, ny1 = d.y - r, ny2 = d.y + r;
       quadtree.visit(function (quad, x1, y1, x2, y2) {
         if (quad.point && (quad.point !== d)) {
-          var x = d.x - quad.point.x,
-              y = d.y - quad.point.y,
-              l = Math.sqrt(x * x + y * y),
-              r = d.radius.cur + quad.point.radius.cur + data.padding;
+          var x = d.x - quad.point.x, y = d.y - quad.point.y, l = Math.sqrt(x * x + y * y), r = d.radius.cur + quad.point.radius.cur + data.padding;
           if (l < r) {
             l = (l - r) / l * alpha;
             d.x -= x *= l;
