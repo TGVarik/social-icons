@@ -1,13 +1,13 @@
-{
-  "invert": false,      // if true, normally white logos appear in brand color instead
-  "baseColor": "white", // color of circles when invert is true
+var socialNodeConfig = {
+  "invert": false,
   "width": 350,
   "height": 350,
-  "padding": 1.5,       // space between nodes at rest
-  "radius": 23,         // node radius
+  "padding": 1.5,
+  "radius": 40,
+  "baseColor": "black",
   "sound": true,
-  "gravity": 0.02,      // see https://github.com/mbostock/d3/wiki/Force-Layout#wiki-gravity
-  "charge": 0,          // see https://github.com/mbostock/d3/wiki/Force-Layout#wiki-charge
+  "gravity": 0.02,
+  "charge": 0,
   "accounts": {
     "angellist"  : { "user"  : "" },
     "behance"    : { "user"  : "" },
@@ -21,7 +21,6 @@
     "linkedin"   : { "user"  : "" },
     "pinterest"  : { "user"  : "" },
     "reddit"     : { "user"  : "" },
-    "slack"      : { "user"  : "" },
     "soundcloud" : { "user"  : "" },
     "spotify"    : { "user"  : "" },
     "steam"      : { "user"  : "" },
@@ -30,4 +29,4 @@
     "vimeo"      : { "user"  : "" },
     "vine"       : { "user"  : "" }
   }
-}
+};

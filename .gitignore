@@ -1,5 +1,5 @@
 .idea/
-config.json
+config.js
 bower_components
 node_modules
 *.min.js
