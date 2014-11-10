@@ -1,0 +1,32 @@
+{
+  "name": "Blocks",
+  "version": "1.0.0",
+  "authors": [
+    "Tom G Varik <tgvarik@me.com>"
+  ],
+  "description": "Social links ... with D3.js!",
+  "main": "social-nodes.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "social",
+    "blog",
+    "d3"
+  ],
+  "license": "MIT",
+  "homepage": "va.riks.io",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.11",
+    "jquery": "~2.1.1",
+    "underscore": "~1.7.0"
+  }
+}

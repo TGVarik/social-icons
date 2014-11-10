@@ -1,6 +1,5 @@
 //TODO: wrap in module!!
-
-(function() {
+$(function(){
   var init = function () {
     var icons = {
       "angellist"  : {
@@ -112,19 +111,17 @@
       }
     };
 
-    $.getJSON("config.json", function (data) {
-      $.extend(true, data.accounts, icons);
-      var accounts = data.accounts;
-      for (var service in accounts) {
-        if (!accounts[service].user || accounts[service].user === '') {
-          delete accounts[service];
-        } else {
-          accounts[service].url = _.template(accounts[service].url)(accounts[service]);
-          accounts[service].radius = {min: data.radius, max: data.radius * 1.5, cur: data.radius};
-        }
+    $.extend(true, socialNodeConfig.accounts, icons);
+    var accounts = socialNodeConfig.accounts;
+    for (var service in accounts) {
+      if (!accounts[service].user || accounts[service].user === '') {
+        delete accounts[service];
+      } else {
+        accounts[service].url = _.template(accounts[service].url)(accounts[service]);
+        accounts[service].radius = {min: socialNodeConfig.radius, max: socialNodeConfig.radius * 1.5, cur: socialNodeConfig.radius};
       }
-      socialWidget(data);
-    });
+    }
+    socialWidget(socialNodeConfig);
   };
 
   var socialWidget = function (data) {
@@ -175,8 +172,9 @@
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         var context = new AudioContext();
         var loadPop = function () {
+          var path = $('#social-nodes-audio').data('wav');
           var req = new XMLHttpRequest();
-          req.open('GET', './pop.wav', true);
+          req.open('GET', path, true);
           req.responseType = 'arraybuffer';
           req.onload = function () {
             context.decodeAudioData(req.response, function (buf) {
@@ -199,7 +197,7 @@
 
     var responsive = function () {
       var newWidth = parseInt(container.style('width'));
-      var newHeight = parseInt(container.style('height'));
+      var newHeight = data.height/ data.width * newWidth;
       scaleX.range([0, newWidth]);
       scaleY.range([0, newHeight]);
       svg.attr('width', newWidth).attr('height', newHeight);
@@ -211,14 +209,13 @@
 
     var resize = function (d, smooth) {
       d3.select(this).select('circle').transition().duration(smooth ? 75 : 750).ease(smooth ? 'cubic-in-out' : 'elastic').attr('r', scaleR(d.radius.cur));
-
       d3.select(this).select('.social-node-icon').transition().duration(smooth ? 75 : 750).ease(smooth ? 'cubic-in-out' : 'elastic').attr('transform', iconGroupTransform({cur: scaleR(d.radius.cur)}));
     };
 
     var onMouseEnter = function (d) {
       force.start();
       d.radius.cur = d.radius.max;
-      resize.call(this.parentNode, d);
+      resize.call(this, d);
       if (playPop) {
         playPop()
       }
@@ -227,7 +224,7 @@
     var onMouseLeave = function (d) {
       force.start();
       d.radius.cur = d.radius.min;
-      resize.call(this.parentNode, d);
+      resize.call(this, d);
     };
 
     scaleR = function (n) {
@@ -257,6 +254,7 @@
 
     var contWidth = parseInt(container.style('width'));
     var contHeight = parseInt(container.style('height'));
+    if (contHeight < data.height) contHeight = data.height;
 
     scaleX = d3.scale.linear().domain([0, data.width]).range([0, contWidth]);
     scaleY = d3.scale.linear().domain([0, data.height]).range([0, contHeight]);
@@ -318,7 +316,10 @@
           };
         });
 
-    circle.on('mouseenter', onMouseEnter).on('mouseleave', onMouseLeave).on('click', function (d) {
+    node
+        .on('mouseenter', onMouseEnter)
+        .on('mouseleave', onMouseLeave)
+        .on('click', function (d) {
           if (!d3.event.defaultPrevented) {
             window.open(d.url, '_blank');
           }
@@ -326,6 +327,5 @@
 
     d3.select(window).on('resize', responsive);
   };
-
   init();
-})();
+});

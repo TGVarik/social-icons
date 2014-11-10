@@ -1,4 +1,5 @@
 .idea/
 config.json
-*.ai
-bower_components/*
+bower_components
+node_modules
+*.min.js
